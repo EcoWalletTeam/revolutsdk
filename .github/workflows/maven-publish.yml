@@ -3,9 +3,9 @@
 
 name: Revolut SDK
 
-on:
-  release:
-    types: [created]
+on: [ push ]
+#  release:
+#    types: [created]
 
 jobs:
   build:
