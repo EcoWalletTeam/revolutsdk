@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.ecowallet</groupId>
   <artifactId>revolutsdk</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>revolutsdk</name>
   <description>revolutsdk</description>
+
+  <distributionManagement>
+    <repository>
+      <id>github-maven</id>
+      <name>ecowalletteam</name>
+      <url>https://maven.pkg.github.com/ecowalletteam/revolutsdk</url>
+    </repository>
+  </distributionManagement>
   <properties>
     <java.version>17</java.version>
     <lombok.version>1.18.30</lombok.version>
@@ -69,14 +76,6 @@
     </dependency>
   </dependencies>
 
-  <distributionManagement>
-    <repository>
-      <id>github-maven</id>
-      <name>ecowalletteam</name>
-      <url>https://maven.pkg.github.com/ecowalletteam/revolutsdk</url>
-    </repository>
-  </distributionManagement>
-
   <build>
     <plugins>
       <plugin>
@@ -95,6 +94,19 @@
           <source>16</source>
           <target>16</target>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.github.ekryd.sortpom</groupId>
+        <artifactId>sortpom-maven-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>sort</goal>
+            </goals>
+            <phase>verify</phase>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
