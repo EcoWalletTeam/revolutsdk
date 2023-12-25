@@ -69,6 +69,14 @@
     </dependency>
   </dependencies>
 
+  <distributionManagement>
+    <repository>
+      <id>github-maven</id>
+      <name>ecowalletteam</name>
+      <url>https://maven.pkg.github.com/ecowalletteam/revolutsdk</url>
+    </repository>
+  </distributionManagement>
+
   <build>
     <plugins>
       <plugin>
