@@ -24,11 +24,11 @@ import java.util.UUID;
 @Log
 public class RevolutClientDefault {
     private static RevolutClient revolutClient;
-    private String baseUrl;
-    private String refreshToken;
-    private String grantType;
-    private String clientAssertionType;
-    private String clientAssertion;
+    private final String baseUrl;
+    private final String refreshToken;
+    private final String grantType;
+    private final String clientAssertionType;
+    private final String clientAssertion;
 
     public List<RevolutTransaction> getTransactions(LocalDateTime from, LocalDateTime to, UUID accountId) {
         Map<String, Object> queryMap = new HashMap<>() {{
@@ -36,27 +36,18 @@ public class RevolutClientDefault {
             put("to", to.format(DateTimeFormatter.ISO_DATE));
             put("account", accountId);
         }};
-        revolutClient = Feign.builder()
-            .decoder(new JacksonDecoder(List.of(new JavaTimeModule())))
-            .target(RevolutClient.class, baseUrl);
         log.info("Looking up Transaction from " + from.toString() + " to " + to.toString() + " for accountID " + accountId);
-        return revolutClient.getTransactions(generateAccessToken().getToken(), queryMap);
+        return getRevolutClient().getTransactions(generateAccessToken().getToken(), queryMap);
     }
 
     public RevolutAccount getAccount(String id) {
-        revolutClient = Feign.builder()
-            .decoder(new JacksonDecoder(List.of(new JavaTimeModule())))
-            .target(RevolutClient.class, baseUrl);
         log.info("Looking up account with id: " + id);
-        return revolutClient.getAccount(generateAccessToken().getToken(), id);
+        return getRevolutClient().getAccount(generateAccessToken().getToken(), id);
     }
 
     public RevolutCounterParty getCounterParty(String id) {
-        revolutClient = Feign.builder()
-            .decoder(new JacksonDecoder(List.of(new JavaTimeModule())))
-            .target(RevolutClient.class, baseUrl);
         log.info("Looking up counterparty with id: " + id);
-        return revolutClient.getCounterParty(generateAccessToken().getToken(), id);
+        return getRevolutClient().getCounterParty(generateAccessToken().getToken(), id);
     }
 
     public AccessToken generateAccessToken() {
@@ -67,4 +58,13 @@ public class RevolutClientDefault {
         return revolutAuthClient.getAccessToken(grantType, refreshToken, clientAssertionType, clientAssertion);
     }
 
+    private RevolutClient getRevolutClient() {
+        return revolutClient != null ? revolutClient : createFeignClient();
+    }
+
+    private RevolutClient createFeignClient() {
+        return Feign.builder()
+            .decoder(new JacksonDecoder(List.of(new JavaTimeModule())))
+            .target(RevolutClient.class, baseUrl);
+    }
 }
