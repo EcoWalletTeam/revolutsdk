@@ -48,9 +48,6 @@ public class RevolutSdkExample {
       RevolutCounterParty counterParty = revolutClientDefault.getCounterParty(transactions.get(0).getLegs().get(0)
         .getCounterParty()
         .getId());
-      System.out.println(transactions);
-      System.out.println(account);
-      System.out.println(counterParty);
     } catch (Exception e) {
       log.warning(e.getMessage());
     }
@@ -59,10 +56,3 @@ public class RevolutSdkExample {
 
 }
 ```
-
-For further reference, please consider the following sections:
-
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/3.1.7/maven-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/3.1.7/maven-plugin/reference/html/#build-image)
-
