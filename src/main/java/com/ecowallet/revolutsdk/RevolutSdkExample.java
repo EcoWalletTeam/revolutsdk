@@ -1,6 +1,7 @@
 package com.ecowallet.revolutsdk;
 
 import com.ecowallet.revolutsdk.client.RevolutClientDefault;
+import com.ecowallet.revolutsdk.models.request.RevolutTransactionRequest;
 import com.ecowallet.revolutsdk.models.response.RevolutAccount;
 import com.ecowallet.revolutsdk.models.response.RevolutCounterParty;
 import com.ecowallet.revolutsdk.models.response.RevolutTransaction;
@@ -28,9 +29,18 @@ public class RevolutSdkExample {
             .baseUrl(baseUrl)
             .build();
         try {
-            List<RevolutTransaction> transactions = revolutClientDefault.getTransactions(LocalDateTime.now().minusDays(1), LocalDateTime.now(), null);
-            RevolutAccount account = revolutClientDefault.getAccount(transactions.get(0).getLegs().get(0).getAccountID());
-            RevolutCounterParty counterParty = revolutClientDefault.getCounterParty(transactions.get(0).getLegs().get(0).getCounterParty().getId());
+            RevolutTransactionRequest transactionRequest = RevolutTransactionRequest.builder()
+                .from(LocalDateTime.now().minusDays(10))
+                .to(LocalDateTime.now())
+                .accountId(null)
+                .count(1000)
+                .build();
+            List<RevolutTransaction> transactions = revolutClientDefault.getTransactions(transactionRequest);
+            RevolutAccount account = revolutClientDefault.getAccount(transactions.get(0).getLegs().get(0)
+                .getAccountID());
+            RevolutCounterParty counterParty = revolutClientDefault.getCounterParty(transactions.get(0).getLegs().get(0)
+                .getCounterParty()
+                .getId());
             System.out.println(transactions);
             System.out.println(account);
             System.out.println(counterParty);
